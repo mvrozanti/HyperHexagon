@@ -1,4 +1,4 @@
-# HyperHexagon
+# HyperHexagon in C# (Visual Studio)
 Dumb AI
 
 Makes use of VAMemory.dll to edit addresses and control the agent on the basis of the Walls that fall to the center.
