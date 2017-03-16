@@ -120,7 +120,7 @@ namespace DeepQLearning.DRLAgent {
             this.rad = 10;
             this.eyes = new List<Eye>();
             //for (var k = 0; k < 9; k++) { this.eyes.Add(new Eye((k - 3) * 0.25)); }
-            for (var k = 0; k < 6/*slots*/; k++) { this.eyes.Add(new Eye((}
+            for (var k = 0; k < 6/*slots*/; k++) { this.eyes.Add(new Eye(k)); }
 
             this.reward_bonus = 0.0;
             this.digestion_signal = 0.0;
