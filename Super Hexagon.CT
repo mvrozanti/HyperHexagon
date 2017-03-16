@@ -10,7 +10,7 @@
         <CheatEntry>
           <ID>2</ID>
           <Description>"Player Pos"</Description>
-          <LastState Value="30" RealAddress="03556690"/>
+          <LastState Value="150" RealAddress="036E31D0"/>
           <ShowAsSigned>1</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>0018FEE4</Address>
@@ -20,8 +20,8 @@
         </CheatEntry>
         <CheatEntry>
           <ID>86</ID>
-          <Description>"IsDead"</Description>
-          <LastState Value="1" RealAddress="035566A0"/>
+          <Description>"Env.Rotation"</Description>
+          <LastState Value="1" RealAddress="036E31E0"/>
           <VariableType>4 Bytes</VariableType>
           <Address>0018FEE4</Address>
           <Offsets>
@@ -31,11 +31,21 @@
         <CheatEntry>
           <ID>99</ID>
           <Description>"wasHit"</Description>
-          <LastState Value="0" RealAddress="0355669C"/>
+          <LastState Value="0" RealAddress="036E31DC"/>
           <VariableType>4 Bytes</VariableType>
           <Address>0018FEE4</Address>
           <Offsets>
             <Offset>2964</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>107</ID>
+          <Description>"Score"</Description>
+          <LastState Value="15752" RealAddress="036E3200"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>0018FEE4</Address>
+          <Offsets>
+            <Offset>2988</Offset>
           </Offsets>
         </CheatEntry>
       </CheatEntries>
@@ -50,7 +60,7 @@
         <CheatEntry>
           <ID>97</ID>
           <Description>"MapAngle"</Description>
-          <LastState Value="142" RealAddress="03553EE4"/>
+          <LastState Value="159" RealAddress="036E0A24"/>
           <VariableType>4 Bytes</VariableType>
           <Address>0018FEE4</Address>
           <Offsets>
@@ -60,7 +70,7 @@
         <CheatEntry>
           <ID>20</ID>
           <Description>"Block 1 RHeight"</Description>
-          <LastState Value="2815140" RealAddress="03553F5C"/>
+          <LastState Value="756800" RealAddress="036E0A9C"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -70,7 +80,7 @@
         <CheatEntry>
           <ID>49</ID>
           <Description>"Block 2 RHeight"</Description>
-          <LastState Value="2815140" RealAddress="03553F70"/>
+          <LastState Value="756800" RealAddress="036E0AB0"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -80,7 +90,7 @@
         <CheatEntry>
           <ID>26</ID>
           <Description>"Block 3 RHeight"</Description>
-          <LastState Value="2815140" RealAddress="03553F84"/>
+          <LastState Value="756800" RealAddress="036E0AC4"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -90,7 +100,7 @@
         <CheatEntry>
           <ID>35</ID>
           <Description>"Block 4 RHeight"</Description>
-          <LastState Value="2818516" RealAddress="03553F98"/>
+          <LastState Value="756800" RealAddress="036E0AD8"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -100,7 +110,7 @@
         <CheatEntry>
           <ID>37</ID>
           <Description>"Block 5 RHeight"</Description>
-          <LastState Value="2818516" RealAddress="03553FAC"/>
+          <LastState Value="756800" RealAddress="036E0AEC"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -110,7 +120,7 @@
         <CheatEntry>
           <ID>39</ID>
           <Description>"Block 6 RHeight"</Description>
-          <LastState Value="2816140" RealAddress="03553FC0"/>
+          <LastState Value="756947" RealAddress="036E0B00"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -120,7 +130,7 @@
         <CheatEntry>
           <ID>41</ID>
           <Description>"Block 7 RHeight"</Description>
-          <LastState Value="2816140" RealAddress="03553FD4"/>
+          <LastState Value="760140" RealAddress="036E0B14"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -130,7 +140,7 @@
         <CheatEntry>
           <ID>43</ID>
           <Description>"Block 8 RHeight"</Description>
-          <LastState Value="2816140" RealAddress="03553FE8"/>
+          <LastState Value="760140" RealAddress="036E0B28"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -140,7 +150,7 @@
         <CheatEntry>
           <ID>45</ID>
           <Description>"Block 9 RHeight"</Description>
-          <LastState Value="2817328" RealAddress="03553FFC"/>
+          <LastState Value="760140" RealAddress="036E0B3C"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000b8</Address>
           <Offsets>
@@ -150,7 +160,7 @@
         <CheatEntry>
           <ID>47</ID>
           <Description>"Block 10 RHeight"</Description>
-          <LastState Value="2817328" RealAddress="03554010"/>
+          <LastState Value="760740" RealAddress="036E0B50"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000b8</Address>
           <Offsets>
@@ -160,7 +170,7 @@
         <CheatEntry>
           <ID>50</ID>
           <Description>"Block 11 RHeight"</Description>
-          <LastState Value="2817328" RealAddress="03554024"/>
+          <LastState Value="760740" RealAddress="036E0B64"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -170,7 +180,7 @@
         <CheatEntry>
           <ID>51</ID>
           <Description>"Block 12 RHeight"</Description>
-          <LastState Value="2817328" RealAddress="03554038"/>
+          <LastState Value="760740" RealAddress="036E0B78"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -180,7 +190,7 @@
         <CheatEntry>
           <ID>52</ID>
           <Description>"Block 13 RHeight"</Description>
-          <LastState Value="2818516" RealAddress="0355404C"/>
+          <LastState Value="761340" RealAddress="036E0B8C"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -190,7 +200,7 @@
         <CheatEntry>
           <ID>53</ID>
           <Description>"Block 14 RHeight"</Description>
-          <LastState Value="0" RealAddress="03554060"/>
+          <LastState Value="761340" RealAddress="036E0BA0"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -200,7 +210,7 @@
         <CheatEntry>
           <ID>54</ID>
           <Description>"Block 15 RHeight"</Description>
-          <LastState Value="0" RealAddress="03554074"/>
+          <LastState Value="761340" RealAddress="036E0BB4"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -210,7 +220,7 @@
         <CheatEntry>
           <ID>55</ID>
           <Description>"Block 16 RHeight"</Description>
-          <LastState Value="0" RealAddress="03554088"/>
+          <LastState Value="761940" RealAddress="036E0BC8"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -220,7 +230,7 @@
         <CheatEntry>
           <ID>56</ID>
           <Description>"Block 17 RHeight"</Description>
-          <LastState Value="0" RealAddress="0355409C"/>
+          <LastState Value="761940" RealAddress="036E0BDC"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -230,7 +240,7 @@
         <CheatEntry>
           <ID>57</ID>
           <Description>"Block 18 RHeight"</Description>
-          <LastState Value="0" RealAddress="035540B0"/>
+          <LastState Value="761940" RealAddress="036E0BF0"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -240,7 +250,7 @@
         <CheatEntry>
           <ID>58</ID>
           <Description>"Block 19 RHeight"</Description>
-          <LastState Value="0" RealAddress="035540C4"/>
+          <LastState Value="762540" RealAddress="036E0C04"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -250,7 +260,7 @@
         <CheatEntry>
           <ID>59</ID>
           <Description>"Block 20 RHeight"</Description>
-          <LastState Value="0" RealAddress="035540D8"/>
+          <LastState Value="762540" RealAddress="036E0C18"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -260,7 +270,7 @@
         <CheatEntry>
           <ID>60</ID>
           <Description>"Block 21 RHeight"</Description>
-          <LastState Value="0" RealAddress="035540EC"/>
+          <LastState Value="762540" RealAddress="036E0C2C"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -270,7 +280,7 @@
         <CheatEntry>
           <ID>61</ID>
           <Description>"Block 22 RHeight"</Description>
-          <LastState Value="0" RealAddress="03554100"/>
+          <LastState Value="756947" RealAddress="036E0C40"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -280,7 +290,7 @@
         <CheatEntry>
           <ID>62</ID>
           <Description>"Block 23 RHeight"</Description>
-          <LastState Value="0" RealAddress="03554114"/>
+          <LastState Value="757147" RealAddress="036E0C54"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -290,7 +300,7 @@
         <CheatEntry>
           <ID>63</ID>
           <Description>"Block 24 RHeight"</Description>
-          <LastState Value="0" RealAddress="03554128"/>
+          <LastState Value="757147" RealAddress="036E0C68"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -300,7 +310,7 @@
         <CheatEntry>
           <ID>64</ID>
           <Description>"Block 25 RHeight"</Description>
-          <LastState Value="0" RealAddress="0355413C"/>
+          <LastState Value="756947" RealAddress="036E0C7C"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -310,7 +320,7 @@
         <CheatEntry>
           <ID>65</ID>
           <Description>"Block 26 RHeight"</Description>
-          <LastState Value="0" RealAddress="03554150"/>
+          <LastState Value="758147" RealAddress="036E0C90"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -320,7 +330,7 @@
         <CheatEntry>
           <ID>66</ID>
           <Description>"Block 27 RHeight"</Description>
-          <LastState Value="0" RealAddress="03554164"/>
+          <LastState Value="757947" RealAddress="036E0CA4"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -330,7 +340,7 @@
         <CheatEntry>
           <ID>67</ID>
           <Description>"Block 28 RHeight"</Description>
-          <LastState Value="0" RealAddress="03554178"/>
+          <LastState Value="758147" RealAddress="036E0CB8"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -340,7 +350,7 @@
         <CheatEntry>
           <ID>68</ID>
           <Description>"Block 29 RHeight"</Description>
-          <LastState Value="0" RealAddress="0355418C"/>
+          <LastState Value="758947" RealAddress="036E0CCC"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -350,7 +360,7 @@
         <CheatEntry>
           <ID>69</ID>
           <Description>"Block 30 RHeight"</Description>
-          <LastState Value="0" RealAddress="035541A0"/>
+          <LastState Value="758947" RealAddress="036E0CE0"/>
           <VariableType>4 Bytes</VariableType>
           <Address>"THREADSTACK0"-000000B8</Address>
           <Offsets>
@@ -362,13 +372,73 @@
     <CheatEntry>
       <ID>4</ID>
       <Description>"Color Scheme"</Description>
-      <LastState Value="199" RealAddress="03553EEC"/>
+      <LastState Value="199" RealAddress="036E0A2C"/>
       <Color>000000</Color>
       <VariableType>4 Bytes</VariableType>
       <Address>0018FED4</Address>
       <Offsets>
         <Offset>1B4</Offset>
       </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>100</ID>
+      <Description>"Left or Right"</Description>
+      <ShowAsSigned>1</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>03574798</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>101</ID>
+      <Description>"GO Right"</Description>
+      <VariableType>Byte</VariableType>
+      <Address>0357479A</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>102</ID>
+      <Description>"GO Left"</Description>
+      <VariableType>Byte</VariableType>
+      <Address>03574798</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>103</ID>
+      <Description>"HORARIO"</Description>
+      <LastState Value="0" RealAddress="037212DA"/>
+      <VariableType>Byte</VariableType>
+      <Address>0018FEE4</Address>
+      <Offsets>
+        <Offset>40A62</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>104</ID>
+      <Description>"ANTIHORARIO"</Description>
+      <LastState Value="0" RealAddress="037212D8"/>
+      <VariableType>Byte</VariableType>
+      <Address>0018FEE4</Address>
+      <Offsets>
+        <Offset>40A60</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>108</ID>
+      <Description>"No description"</Description>
+      <LastState Value="6" RealAddress="036E4F64"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>036E4F64</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>109</ID>
+      <Description>"No description"</Description>
+      <LastState Value="6" RealAddress="036E4F60"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>036E4F60</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>110</ID>
+      <Description>"No description"</Description>
+      <LastState Value="1" RealAddress="036E31E0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>036E31E0</Address>
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>

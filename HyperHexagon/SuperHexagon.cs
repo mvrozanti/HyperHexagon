@@ -13,39 +13,45 @@ namespace HyperHexagon {
 
     public struct Wall {
         public int slot;
-        public int distance;
+        public int distance;//max value = 
         public int height;
         public override string ToString() {
-            return "Wall{" + slot + ", " + distance + ", " + height + '}';
+            return slot + "," + distance + "," + height;
         }
     }
 
-
     class SuperHexagon {
-        [DllImport("kernel32.dll")]
-        static extern IntPtr OpenThread(uint dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
-        [DllImport("kernel32.dll")]
-        static extern uint SuspendThread(IntPtr hThread);
-        [DllImport("kernel32.dll")]
-        static extern uint ResumeThread(IntPtr hThread);
-        public static VAMemory vam;
-        public static bool wasHit = false;
+
+        [DllImport("D:\\GoogleDrive\\Programming\\C++\\LoadDLL\\Debug\\LoadDLL.dll")]
+        public static extern void PressEscKey();
+
+        [DllImport("D:\\GoogleDrive\\Programming\\C++\\LoadDLL\\Debug\\LoadDLL.dll")]
+        public static extern void PressSpaceKey();
+
+        public VAMemory vam;
         public static readonly IntPtr BASE_POINTER = (IntPtr)0x0018FEE4;
         public static Dictionary<string, int> offsets = new Dictionary<string, int> {
             {"slotCount", 0x1BC},
             {"wallCount", 0x2930},
             {"firstWall", 0x210},
             {"wasHit",  0x2964},
-            {"deadBool", 0x2968},
+            {"envRotation", 0x2968},
             {"playerAngle", 0x2958},
             {"playerAngleAux", 0x2954},
             {"mouseDownLeft", 0x42858},
             {"mouseDownRight", 0x4285A},
             {"mouseDown", 0x42C45},
-            {"mapAngle", 0x1AC}
+            {"mapAngle", 0x1AC},
+            {"score", 0x2988},
+            {"clockwiseMove",  0x40A62},
+            {"counterClockwiseMove", 0x40A60}
         };
 
-        public static List<Wall> getWalls() {
+        public SuperHexagon() {
+            vam = new VAMemory("Super Hexagon");
+        }
+
+        public List<Wall> getWalls() {
             List<Wall> wallList = new List<Wall>();
             int offset = offsets["firstWall"];
             int wallCount = getWallCount();
@@ -55,58 +61,68 @@ namespace HyperHexagon {
                 w.slot = vam.ReadInt32(address + 0x10);
                 w.distance = vam.ReadInt32(address + 0x14);
                 w.height = vam.ReadInt32(address + 0x18);
-                if (w.height > 0 && w.distance < 1000000 && w.slot > -1)
-                    wallList.Add(w);
+                wallList.Add(w);
             }
             return wallList;
         }
 
-        public static void watchForHit() {
-            while (true) {
-                wasHit = vam.ReadInt32((IntPtr)
-                vam.ReadInt32(
-                    BASE_POINTER) + offsets["wasHit"]) == 1;
-            }
-        }
-
-        public static void setSpin(bool spin) {
-            new Task(() => {
-                while (!spin) {
-                    vam.WriteInt32((IntPtr)vam.ReadInt32(
-                        BASE_POINTER) + offsets["mapAngle"], 0);
+        public Dictionary<int, Wall> getForeseeableWalls() {
+            Dictionary<int, Wall> walls = new Dictionary<int, Wall>();
+            for (int i = 0; i < getSlotCount(); i++) {
+                int minDist = 999999;
+                Wall chosen;
+                foreach (Wall w in getWalls()) {
+                    if (w.distance < minDist) {
+                        minDist = w.distance;
+                        chosen = w;
+                        break;
+                    }
                 }
-            }).Start();
+            }
+            return walls;
         }
 
-        public static void StartAvoid(bool verbose) {
+        int maxDistance = 0;
+        int maxHeight = 0;
+        public void StartAvoid(bool verbose) {
+            int maxWallCount = 0;
             while (true) {
                 List<Wall> newWallList = getWalls();
                 int slotCount = getSlotCount();
+                if (verbose)
+                    Console.Clear();
+                if (maxWallCount < newWallList.Count) {
+                    maxWallCount = newWallList.Count;
+                }
                 Dictionary<int, int> possibleSlots = new Dictionary<int, int>();
-                Console.Clear();
                 foreach (Wall w in newWallList) {
-                    Console.WriteLine(w);
                     int slot = w.slot;
                     int distance = w.distance;
                     int height = w.height;
-                    if (slot < slotCount) {
+                    if (slot < slotCount && w.height > 0 && w.distance < 1000000 && w.slot > -1) {
                         if (possibleSlots.ContainsKey(slot)) {
                             if (distance < possibleSlots[slot]) {
-                                //possibleSlots[slot] = distance;
                                 possibleSlots[slot] = distance;
                             }
                         } else {
-                            //possibleSlots[slot] = distance;
-                            possibleSlots.Add(slot, distance);
+                            possibleSlots[slot] = distance;
                         }
                     }
+                    if(distance > this.maxDistance) {
+                        this.maxDistance = distance;
+                    }
+                    if (height > this.maxHeight) {
+                        this.maxHeight = height;
+                    }
                 }
-                for (int i = 0; i < 6; i++) {
-                    if(i < slotCount && !possibleSlots.ContainsKey(i)) {
+                for (int i = 0; i < slotCount; i++) {
+                    if (!possibleSlots.ContainsKey(i)) {
                         possibleSlots.Add(i, int.MaxValue);
                     }
                 }
                 Console.WriteLine("Player slot: " + getPlayerSlot());
+                Console.WriteLine("Max height: " + maxHeight);
+                Console.WriteLine("Max distance: " + this.maxDistance);
                 int targetSlot = -1;
                 int maxDistance = -1;
                 foreach (KeyValuePair<int, int> kvp in possibleSlots) {
@@ -126,28 +142,29 @@ namespace HyperHexagon {
             }
         }
 
-        public static void makeDeathReport() {
-            List<Wall> walls = getWalls();
-            int playerSlot = getPlayerSlot();
-            Wall hit = new Wall();
-            hit.distance = int.MaxValue;
-            foreach (Wall w in walls) {
-                if (w.slot == playerSlot && w.distance - w.height < hit.distance - hit.height) {
-                    hit = w;
-                }
-            }
-            Console.Clear();
-            Console.WriteLine("Hit " + hit);
-            Console.ReadKey();
+        /**
+         * movement types
+         **/
+        public readonly int CLOCKWISE = 0;
+        public readonly int COUNTERCLOCKWISE = 1;
+        public readonly int STOP = 2;
+
+        public void setMovement(int type) {
+            moveCounterClockwise(type == COUNTERCLOCKWISE);
+            moveClockwise(type == CLOCKWISE);
         }
 
-        public static bool isAlive() {
-            return vam.ReadInt32((IntPtr)
-                    vam.ReadInt32(
-                        BASE_POINTER) + offsets["deadBool"]) != 1;
+        private bool moveClockwise(bool startOrStop) {
+            return vam.WriteInt32((IntPtr)vam.ReadInt32(
+                        BASE_POINTER) + offsets["clockwiseMove"], startOrStop ? 1 : 0);
         }
 
-        public static bool setPlayerSlot(int slot) {
+        private bool moveCounterClockwise(bool startOrStop) {
+            return vam.WriteInt32((IntPtr)vam.ReadInt32(
+                        BASE_POINTER) + offsets["counterClockwiseMove"], startOrStop ? 1 : 0);
+        }
+
+        public bool setPlayerSlot(int slot) {
             int slotCount = getSlotCount();
             int angle = 360 / slotCount * (slot % slotCount) + (180 / slotCount);
             return vam.WriteInt32((IntPtr)vam.ReadInt32(
@@ -156,29 +173,47 @@ namespace HyperHexagon {
                         BASE_POINTER) + offsets["playerAngleAux"], angle);
         }
 
-        public static int getSlotCount() {
+        public int getSlotCount() {
             return vam.ReadInt32((IntPtr)
                     vam.ReadInt32(
                         BASE_POINTER) + offsets["slotCount"]);
         }
 
-        public static int getPlayerSlot() {
+        public int getPlayerSlot() {
             int angle = getPlayerAngle();
             int slotCount = getSlotCount();
             return (int)Math.Round((double)angle / 360 * slotCount, 1);
         }
 
-        public static int getPlayerAngle() {
+        public int getPlayerAngle() {
             return vam.ReadInt32((IntPtr)
                     vam.ReadInt32(
                         BASE_POINTER) + offsets["playerAngle"]);
         }
 
-        public static int getWallCount() {
+        public int getWallCount() {
             return vam.ReadInt32((IntPtr)
                     vam.ReadInt32(
                         BASE_POINTER) + offsets["wallCount"]);
         }
 
+        public int isDead() {
+            return vam.ReadInt32((IntPtr)
+                    vam.ReadInt32(
+                        BASE_POINTER) + offsets["wasHit"]);
+        }
+
+        public int getEnvironmentRotation() {
+            return vam.ReadInt32((IntPtr)
+                vam.ReadInt32(
+                    BASE_POINTER) + offsets["envRotation"]);
+        }
+
+        public void resetState() {
+            PressEscKey();
+            Thread.Sleep(2000);
+            PressSpaceKey();
+            Thread.Sleep(200);
+        }
     }
 }

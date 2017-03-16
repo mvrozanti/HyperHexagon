@@ -37,4 +37,48 @@ D:\Dropbox\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\sv\ZedGraph.resour
 D:\Dropbox\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\tr\ZedGraph.resources.dll
 D:\Dropbox\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\zh-cn\ZedGraph.resources.dll
 D:\Dropbox\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\zh-tw\ZedGraph.resources.dll
+D:\Dropbox\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\encog-core-cs.dll
 D:\Dropbox\Programming\C#\HyperHexagon\HyperHexagon\obj\Debug\HyperHexagon.csprojResolveAssemblyReference.cache
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\HyperHexagon.exe.config
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\obj\Debug\HyperHexagon.exe
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\obj\Debug\HyperHexagon.pdb
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\obj\Debug\HyperHexagon.csprojResolveAssemblyReference.cache
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.dll.config
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\HyperHexagon.exe
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\HyperHexagon.pdb
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Controls.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Imaging.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.MachineLearning.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.MachineLearning.GPL.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Math.Core.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Math.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Neuro.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Statistics.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\encog-core-cs.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\ZedGraph.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.xml
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Controls.xml
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Imaging.xml
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.MachineLearning.xml
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.MachineLearning.GPL.xml
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Math.xml
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Math.Core.xml
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Neuro.xml
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Accord.Statistics.xml
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\ZedGraph.xml
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\de\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\es\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\fr\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\hu\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\it\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\ja\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\pt\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\ru\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\sk\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\sv\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\tr\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\zh-cn\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\zh-tw\ZedGraph.resources.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Newtonsoft.Json.dll
+D:\Google Drive\Programming\C#\HyperHexagon\HyperHexagon\bin\Debug\Newtonsoft.Json.xml

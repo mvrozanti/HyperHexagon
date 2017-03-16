@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="HyperHexagon.RLPolicy">
+    <Position X="4.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAkAAAASAAAiQAQAAAAAAAAAAAhAAECAACAAAAAAA=</HashCode>
+      <FileName>RLPolicy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HyperHexagon.SuperHexagon" BaseTypeListCollapsed="true">
+    <Position X="2.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YAIIEIAIFAQAAABEIgADAAABABACAQCBCBAJASAAAgA=</HashCode>
+      <FileName>SuperHexagon.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="HyperHexagon.RLearner">
+    <Position X="6" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAWRFEA4AQYRAQABAAAAQBECEBgGQQCEAkQQgQgQBAA=</HashCode>
+      <FileName>RLearner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="HyperHexagon.Wall">
+    <Position X="0.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAAAAAAAAAEAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>SuperHexagon.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="HyperHexagon.RLWorld">
+    <Position X="4.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAEAAAFAAAAAAAAAAAAAAAAAACAAAACAAAAQAAAAA=</HashCode>
+      <FileName>RLWorld.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
