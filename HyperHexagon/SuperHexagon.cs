@@ -70,14 +70,14 @@ namespace HyperHexagon {
             Dictionary<int, Wall> walls = new Dictionary<int, Wall>();
             for (int i = 0; i < getSlotCount(); i++) {
                 int minDist = 999999;
-                Wall chosen;
+                Wall chosen = new Wall();
                 foreach (Wall w in getWalls()) {
-                    if (w.distance < minDist) {
+                    if (w.distance < minDist && w.slot == i) {
                         minDist = w.distance;
                         chosen = w;
-                        break;
                     }
                 }
+                walls.Add(i, chosen);
             }
             return walls;
         }
@@ -123,6 +123,9 @@ namespace HyperHexagon {
                 Console.WriteLine("Player slot: " + getPlayerSlot());
                 Console.WriteLine("Max height: " + maxHeight);
                 Console.WriteLine("Max distance: " + this.maxDistance);
+                foreach (KeyValuePair<int, Wall> kvp in getForeseeableWalls()) {
+                    Console.WriteLine(kvp.Value);
+                }
                 int targetSlot = -1;
                 int maxDistance = -1;
                 foreach (KeyValuePair<int, int> kvp in possibleSlots) {

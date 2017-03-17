@@ -5,6 +5,8 @@ using System.Drawing;
 
 /**
  * commented off visual aids
+ * 
+ * 
  **/
 namespace DeepQLearning.DRLAgent {
     [Serializable]
@@ -120,7 +122,7 @@ namespace DeepQLearning.DRLAgent {
             this.rad = 10;
             this.eyes = new List<Eye>();
             //for (var k = 0; k < 9; k++) { this.eyes.Add(new Eye((k - 3) * 0.25)); }
-            for (var k = 0; k < 6/*slots*/; k++) { this.eyes.Add(new Eye(k)); }
+            for (int k = 0; k < 6/*slots*/; k++) { this.eyes.Add(new Eye(k)); }
 
             this.reward_bonus = 0.0;
             this.digestion_signal = 0.0;
@@ -135,10 +137,10 @@ namespace DeepQLearning.DRLAgent {
         public void forward() {
             // in forward pass the agent simply behaves in the environment
             // create input to brain
-            var num_eyes = this.eyes.Count;
-            var input_array = new double[num_eyes * 3];
-            for (var i = 0; i < num_eyes; i++) {
-                var e = this.eyes[i];
+            int num_eyes = this.eyes.Count;
+            double[] input_array = new double[num_eyes * 3];
+            for (int i = 0; i < num_eyes; i++) {
+                Eye e = this.eyes[i];
                 input_array[i * 3] = 1.0;
                 input_array[i * 3 + 1] = 1.0;
                 input_array[i * 3 + 2] = 1.0;
@@ -153,8 +155,8 @@ namespace DeepQLearning.DRLAgent {
             input.w = input_array;
 
             // get action from brain
-            var actionix = this.brain.forward(input);
-            var action = this.actions[actionix];
+            int actionix = this.brain.forward(input);
+            double[] action = this.actions[actionix];
             this.actionix = actionix; //back this up
 
             // demultiplex into behavior variables
@@ -165,10 +167,10 @@ namespace DeepQLearning.DRLAgent {
         public void backward() {
             // in backward pass agent learns.
             // compute reward 
-            var proximity_reward = 0.0;
-            var num_eyes = this.eyes.Count;
-            for (var i = 0; i < num_eyes; i++) {
-                var e = this.eyes[i];
+            double proximity_reward = 0.0;
+            int num_eyes = this.eyes.Count;
+            for (int i = 0; i < num_eyes; i++) {
+                Eye e = this.eyes[i];
                 // agents dont like to see walls, especially up close
                 proximity_reward += e.sensed_type == 0 ? e.sensed_proximity / e.max_range : 1.0;
             }
@@ -176,15 +178,14 @@ namespace DeepQLearning.DRLAgent {
             proximity_reward = Math.Min(1.0, proximity_reward * 2);
 
             // agents like to go straight forward
-            var forward_reward = 0.0;
+            double forward_reward = 0.0;
             if (this.actionix == 0 && proximity_reward > 0.75)
                 forward_reward = 0.1 * proximity_reward;
 
             // agents like to eat good things
-            var digestion_reward = this.digestion_signal;
+            double digestion_reward = this.digestion_signal;
             this.digestion_signal = 0.0;
-
-            var reward = proximity_reward + forward_reward + digestion_reward;
+            double reward = proximity_reward + forward_reward + digestion_reward;
 
             // pass to brain for learning
             this.brain.backward(reward);
@@ -254,8 +255,8 @@ namespace DeepQLearning.DRLAgent {
             // collide with walls
             if (check_walls) {
                 for (int i = 0, n = this.walls.Count; i < n; i++) {
-                    var wall = this.walls[i];
-                    var res = line_intersect(p1, p2, wall.p1, wall.p2);
+                    Wall wall = this.walls[i];
+                    Intersect res = line_intersect(p1, p2, wall.p1, wall.p2);
                     if (res.intersect) {
                         res.type = 0; // 0 is wall
                         if (!minres.intersect) {
@@ -273,8 +274,8 @@ namespace DeepQLearning.DRLAgent {
             // collide with items
             if (check_items) {
                 for (int i = 0, n = this.items.Count; i < n; i++) {
-                    var it = this.items[i];
-                    var res = line_point_intersect(p1, p2, it.p, it.rad);
+                    Item it = this.items[i];
+                    Intersect res = line_point_intersect(p1, p2, it.p, it.rad);
                     if (res.intersect) {
                         res.type = it.type; // store type of item
                         if (!minres.intersect) { minres = res; } else {   // check if its closer
@@ -294,13 +295,13 @@ namespace DeepQLearning.DRLAgent {
         public Intersect line_intersect(Vec p1, Vec p2, Vec p3, Vec p4) {
             Intersect result = new Intersect() { intersect = false };
 
-            var denom = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
+            double denom = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
             if (denom == 0.0) { result.intersect = false; } // parallel lines
 
-            var ua = ((p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x)) / denom;
-            var ub = ((p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x)) / denom;
+            double ua = ((p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x)) / denom;
+            double ub = ((p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x)) / denom;
             if (ua > 0.0 && ua < 1.0 && ub > 0.0 && ub < 1.0) {
-                var up = new Vec(p1.x + ua * (p2.x - p1.x), p1.y + ua * (p2.y - p1.y));
+                Vec up = new Vec(p1.x + ua * (p2.x - p1.x), p1.y + ua * (p2.y - p1.y));
                 return new Intersect { ua = ua, ub = ub, up = up, intersect = true }; // up is intersection point
             }
             return result;
@@ -309,15 +310,15 @@ namespace DeepQLearning.DRLAgent {
         public Intersect line_point_intersect(Vec A, Vec B, Vec C, double rad) {
             Intersect result = new Intersect { intersect = false };
 
-            var v = new Vec(B.y - A.y, -(B.x - A.x)); // perpendicular vector
-            var d = Math.Abs((B.x - A.x) * (A.y - C.y) - (A.x - C.x) * (B.y - A.y));
+            Vec v = new Vec(B.y - A.y, -(B.x - A.x)); // perpendicular vector
+            double d = Math.Abs((B.x - A.x) * (A.y - C.y) - (A.x - C.x) * (B.y - A.y));
             d = d / v.length();
             if (d > rad) { return result; }
 
             v.normalize();
             v.scale(d);
             double ua = 0.0;
-            var up = C.add(v);
+            Vec up = C.add(v);
             if (Math.Abs(B.x - A.x) > Math.Abs(B.y - A.y)) {
                 ua = (up.x - A.x) / (B.x - A.x);
             } else {
@@ -341,12 +342,12 @@ namespace DeepQLearning.DRLAgent {
             // fix input to all agents based on environment process eyes
             this.collpoints = new List<Intersect>();
             for (int i = 0, n = this.agents.Count; i < n; i++) {
-                var a = this.agents[i];
+                Agent a = this.agents[i];
                 for (int ei = 0, ne = a.eyes.Count; ei < ne; ei++) {
-                    var e = a.eyes[ei];
+                    Eye e = a.eyes[ei];
                     // we have a line from p to p->eyep
-                    var eyep = new Vec(a.p.x + e.max_range * Math.Sin(a.angle + e.slot * 60), a.p.y + e.max_range * Math.Cos(a.angle + e.slot * 60));
-                    var res = this.stuff_collide_(a.p, eyep, true, true);
+                    Vec eyep = new Vec(a.p.x + e.max_range * Math.Sin(a.angle + e.slot * 60), a.p.y + e.max_range * Math.Cos(a.angle + e.slot * 60));
+                    Intersect res = this.stuff_collide_(a.p, eyep, true, true);
 
                     if (res.intersect) {
                         // eye collided with wall
@@ -366,22 +367,22 @@ namespace DeepQLearning.DRLAgent {
 
             // apply outputs of agents on evironment
             for (int i = 0, n = this.agents.Count; i < n; i++) {
-                var a = this.agents[i];
+                Agent a = this.agents[i];
                 a.op = a.p; // back up old position
                 a.oangle = a.angle; // and angle
 
                 // steer the agent according to outputs of wheel velocities
-                var v = new Vec(0, a.rad / 2.0);
+                Vec v = new Vec(0, a.rad / 2.0);
                 v = v.rotate(a.angle + Math.PI / 2);
-                var w1p = a.p.add(v); // positions of wheel 1 and 2
-                var w2p = a.p.sub(v);
-                var vv = a.p.sub(w2p);
+                Vec w1p = a.p.add(v); // positions of wheel 1 and 2
+                Vec w2p = a.p.sub(v);
+                Vec vv = a.p.sub(w2p);
                 vv = vv.rotate(-a.rot1);
-                var vv2 = a.p.sub(w1p);
+                Vec vv2 = a.p.sub(w1p);
                 vv2 = vv2.rotate(a.rot2);
-                var np = w2p.add(vv);
+                Vec np = w2p.add(vv);
                 np.scale(0.5);
-                var np2 = w1p.add(vv2);
+                Vec np2 = w1p.add(vv2);
                 np2.scale(0.5);
                 a.p = np.add(np2);
 
@@ -393,7 +394,7 @@ namespace DeepQLearning.DRLAgent {
                     a.angle -= 2 * Math.PI;
 
                 // agent is trying to move from p to op. Check walls
-                var res = this.stuff_collide_(a.op, a.p, true, false);
+                Intersect res = this.stuff_collide_(a.op, a.p, true, false);
                 if (res.intersect) {
                     // wall collision! reset position
                     a.p = a.op;
@@ -411,19 +412,18 @@ namespace DeepQLearning.DRLAgent {
             }
 
             // tick all items
-            var update_items = false;
+            bool update_items = false;
             for (int i = 0, n = this.items.Count; i < n; i++) {
-                var it = this.items[i];
+                Item it = this.items[i];
                 it.age += 1;
 
                 // see if some agent gets lunch
                 for (int j = 0, m = this.agents.Count; j < m; j++) {
-                    var a = this.agents[j];
-                    var d = a.p.dist_from(it.p);
+                    Agent a = this.agents[j];
+                    double d = a.p.dist_from(it.p);
                     if (d < it.rad + a.rad) {
-
                         // wait lets just make sure that this isn't through a wall
-                        var rescheck = this.stuff_collide_(a.p, it.p, true, false);
+                        Intersect rescheck = this.stuff_collide_(a.p, it.p, true, false);
                         if (!rescheck.intersect) {
                             // ding! nom nom nom
                             if (it.type == 1)
@@ -443,19 +443,19 @@ namespace DeepQLearning.DRLAgent {
                 }
             }
             if (update_items) {
-                var nt = new List<Item>();
+                List<Item> nt = new List<Item>();
                 for (int i = 0, n = this.items.Count; i < n; i++) {
-                    var it = this.items[i];
+                    Item it = this.items[i];
                     if (!it.cleanup_)
                         nt.Add(it);
                 }
                 this.items = nt; // swap
             }
             if (this.items.Count < 30 && this.clock % 10 == 0 && util.randf(0, 1) < 0.25) {
-                var newitx = util.randf(20, this.W - 20);
-                var newity = util.randf(20, this.H - 20);
-                var newitt = util.randi(1, 3); // food or poison (1 and 2)
-                var newit = new Item(newitx, newity, newitt);
+                double newitx = util.randf(20, this.W - 20);
+                double newity = util.randf(20, this.H - 20);
+                int newitt = (int) util.randi(1, 3); // food or poison (1 and 2)
+                Item newit = new Item(newitx, newity, newitt);
                 this.items.Add(newit);
             }
 
