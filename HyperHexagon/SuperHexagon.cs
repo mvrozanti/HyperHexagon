@@ -22,13 +22,14 @@ namespace HyperHexagon {
 
     class SuperHexagon {
 
-        [DllImport("D:\\GoogleDrive\\Programming\\C++\\LoadDLL\\Debug\\LoadDLL.dll")]
+        [DllImport("D:\\Google Drive\\Programming\\C++\\LoadDLL\\Debug\\LoadDLL.dll")]
         public static extern void PressEscKey();
 
-        [DllImport("D:\\GoogleDrive\\Programming\\C++\\LoadDLL\\Debug\\LoadDLL.dll")]
+        [DllImport("D:\\Google Drive\\Programming\\C++\\LoadDLL\\Debug\\LoadDLL.dll")]
         public static extern void PressSpaceKey();
 
         public VAMemory vam;
+        public static SuperHexagon sh;
         public static readonly IntPtr BASE_POINTER = (IntPtr)0x0018FEE4;
         public static Dictionary<string, int> offsets = new Dictionary<string, int> {
             {"slotCount", 0x1BC},
@@ -47,8 +48,15 @@ namespace HyperHexagon {
             {"counterClockwiseMove", 0x40A60}
         };
 
-        public SuperHexagon() {
+        private SuperHexagon() {
             vam = new VAMemory("Super Hexagon");
+        }
+
+        public static SuperHexagon GetInstance() {
+            if(sh == null) {
+                sh = new SuperHexagon();
+            }
+            return sh;
         }
 
         public List<Wall> getWalls() {
@@ -148,9 +156,9 @@ namespace HyperHexagon {
         /**
          * movement types
          **/
-        public readonly int CLOCKWISE = 0;
-        public readonly int COUNTERCLOCKWISE = 1;
-        public readonly int STOP = 2;
+        public static readonly int CLOCKWISE = 0;
+        public static readonly int COUNTERCLOCKWISE = 1;
+        public static readonly int STOP = 2;
 
         public void setMovement(int type) {
             moveCounterClockwise(type == COUNTERCLOCKWISE);
@@ -200,23 +208,23 @@ namespace HyperHexagon {
                         BASE_POINTER) + offsets["wallCount"]);
         }
 
-        public int isDead() {
+        public bool isDead() {
             return vam.ReadInt32((IntPtr)
                     vam.ReadInt32(
-                        BASE_POINTER) + offsets["wasHit"]);
+                        BASE_POINTER) + offsets["wasHit"]) == 0;
         }
 
         public int getEnvironmentRotation() {
             return vam.ReadInt32((IntPtr)
                 vam.ReadInt32(
                     BASE_POINTER) + offsets["envRotation"]);
-        }
+        } 
 
         public void resetState() {
-            PressEscKey();
-            Thread.Sleep(2000);
+            //PressEscKey();
+            //Thread.Sleep(100);
             PressSpaceKey();
-            Thread.Sleep(200);
+            Thread.Sleep(100);
         }
     }
 }

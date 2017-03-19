@@ -1,4 +1,5 @@
 ﻿using ConvnetSharp;
+using HyperHexagon;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -42,7 +43,7 @@ namespace DeepQLearning.DRLAgent {
 
         // in place operations
         public void scale(double s) { this.x *= s; this.y *= s; }
-        public void normalize() { var d = this.length(); this.scale(1.0 / d); }
+        public void normalize() { double d = this.length(); this.scale(1.0 / d); }// normalize to [0,1]
     }
 
     // Wall is made up of two points
@@ -96,10 +97,10 @@ namespace DeepQLearning.DRLAgent {
     [Serializable]
     public class Agent {
         public List<Eye> eyes;
-        public List<double[]> actions;
-        public double angle, oangle, reward_bonus, digestion_signal;
-        public double rad, rot1, rot2, prevactionix;
-        public Vec p, op;
+        public List<int> actions;
+        public double angle, oldAngle, reward_bonus, digestion_signal;
+        public double rad, /*rot1, rot2,*/prevactionix;
+        //public Vec position, oldPosition;
         public int actionix;
         public DeepQLearn brain;
 
@@ -107,11 +108,14 @@ namespace DeepQLearning.DRLAgent {
             this.brain = brain;
 
             // positional information
-            this.p = new Vec(50, 50);
-            this.op = this.p; // old position
+            //this.position = new Vec(50, 50);
+            //this.oldPosition = this.position; // old position
             this.angle = 0; // direction facing
 
-            this.actions = new List<double[]>();
+            this.actions = new List<int>();
+            this.actions.Add(SuperHexagon.STOP);
+            this.actions.Add(SuperHexagon.CLOCKWISE);
+            this.actions.Add(SuperHexagon.COUNTERCLOCKWISE);
             //this.actions.Add(new double[] { 1, 1 });
             //this.actions.Add(new double[] { 0.8, 1 });
             //this.actions.Add(new double[] { 1, 0.8 });
@@ -122,14 +126,14 @@ namespace DeepQLearning.DRLAgent {
             this.rad = 10;
             this.eyes = new List<Eye>();
             //for (var k = 0; k < 9; k++) { this.eyes.Add(new Eye((k - 3) * 0.25)); }
-            for (int k = 0; k < 6/*slots*/; k++) { this.eyes.Add(new Eye(k)); }
+            for (int k = 0; k < 6/*maxSlots*/; k++) { this.eyes.Add(new Eye(k)); }
 
             this.reward_bonus = 0.0;
             this.digestion_signal = 0.0;
 
-            // outputs on world
-            this.rot1 = 0.0; // rotation speed of 1st wheel
-            this.rot2 = 0.0; // rotation speed of 2nd wheel
+            //// outputs on world
+            //this.rot1 = 0.0; // rotation speed of 1st wheel
+            //this.rot2 = 0.0; // rotation speed of 2nd wheel
 
             this.prevactionix = -1;
         }
@@ -156,17 +160,18 @@ namespace DeepQLearning.DRLAgent {
 
             // get action from brain
             int actionix = this.brain.forward(input);
-            double[] action = this.actions[actionix];
+            int action = this.actions[actionix];
             this.actionix = actionix; //back this up
 
             // demultiplex into behavior variables
-            this.rot1 = action[0] * 1;
-            this.rot2 = action[1] * 1;
+            //this.rot1 = action[0] * 1;
+            //this.rot2 = action[1] * 1;
+            SuperHexagon.GetInstance().setMovement(action);
         }
 
         public void backward() {
             // in backward pass agent learns.
-            // compute reward 
+            // compute reward
             double proximity_reward = 0.0;
             int num_eyes = this.eyes.Count;
             for (int i = 0; i < num_eyes; i++) {
@@ -179,7 +184,7 @@ namespace DeepQLearning.DRLAgent {
 
             // agents like to go straight forward
             double forward_reward = 0.0;
-            if (this.actionix == 0 && proximity_reward > 0.75)
+            if (this.actionix == SuperHexagon.STOP && proximity_reward > 0.75)
                 forward_reward = 0.1 * proximity_reward;
 
             // agents like to eat good things
@@ -195,13 +200,13 @@ namespace DeepQLearning.DRLAgent {
     // World object contains many agents and walls and food and stuff
     [Serializable]
     public class World {
-        Util util;
+        //Util util;
 
-        int W, H;
+        //int W, H;
         int clock;
 
         public List<Wall> walls;
-        public List<Item> items;
+        //public List<Item> items;
         public List<Agent> agents;
 
         List<Intersect> collpoints;
@@ -210,10 +215,10 @@ namespace DeepQLearning.DRLAgent {
             this.agents = new List<Agent>();
             //this.W = canvas_Width;
             //this.H = canvas_Height;
-            this.W = 6;//max slots
-            this.H = 30*1000;//wild guess
+            //this.W = 6;//max slots
+            //this.H = 30 * 1000;//wild guess
 
-            this.util = new Util();
+            //this.util = new Util();
             this.clock = 0;
 
             // set up walls in the world
@@ -272,21 +277,21 @@ namespace DeepQLearning.DRLAgent {
             }
 
             // collide with items
-            if (check_items) {
-                for (int i = 0, n = this.items.Count; i < n; i++) {
-                    Item it = this.items[i];
-                    Intersect res = line_point_intersect(p1, p2, it.p, it.rad);
-                    if (res.intersect) {
-                        res.type = it.type; // store type of item
-                        if (!minres.intersect) { minres = res; } else {   // check if its closer
-                            if (res.ua < minres.ua) {
-                                // if yes replace it
-                                minres = res;
-                            }
-                        }
-                    }
-                }
-            }
+            //if (check_items) {
+            //    for (int i = 0, n = this.items.Count; i < n; i++) {
+            //        Item it = this.items[i];
+            //        Intersect res = line_point_intersect(p1, p2, it.p, it.rad);
+            //        if (res.intersect) {
+            //            res.type = it.type; // store type of item
+            //            if (!minres.intersect) { minres = res; } else {   // check if its closer
+            //                if (res.ua < minres.ua) {
+            //                    // if yes replace it
+            //                    minres = res;
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
             return minres;
         }
@@ -343,20 +348,30 @@ namespace DeepQLearning.DRLAgent {
             this.collpoints = new List<Intersect>();
             for (int i = 0, n = this.agents.Count; i < n; i++) {
                 Agent a = this.agents[i];
+                a.angle = SuperHexagon.GetInstance().getPlayerAngle();
+                if (SuperHexagon.GetInstance().isDead())
+                    SuperHexagon.GetInstance().resetState();
                 for (int ei = 0, ne = a.eyes.Count; ei < ne; ei++) {
                     Eye e = a.eyes[ei];
-                    // we have a line from p to p->eyep
-                    Vec eyep = new Vec(a.p.x + e.max_range * Math.Sin(a.angle + e.slot * 60), a.p.y + e.max_range * Math.Cos(a.angle + e.slot * 60));
-                    Intersect res = this.stuff_collide_(a.p, eyep, true, true);
-
-                    if (res.intersect) {
-                        // eye collided with wall
-                        e.sensed_proximity = res.up.dist_from(a.p);
-                        e.sensed_type = res.type;
-                    } else {
-                        e.sensed_proximity = e.max_range;
+                    Dictionary<int, HyperHexagon.Wall> walls = SuperHexagon.GetInstance().getForeseeableWalls();
+                    try {
+                        e.sensed_proximity = walls[i].distance;
+                        e.sensed_type = 2;//2 for poison
+                    } catch (Exception) {
                         e.sensed_type = -1;
+                        e.sensed_proximity = e.max_range;
                     }
+                    // we have a line from p to p->eyep
+                    //Vec eyep = new Vec(a.p.x + e.max_range * Math.Sin(a.angle + e.slot * 60), a.p.y + e.max_range * Math.Cos(a.angle + e.slot * 60));
+                    //Intersect res = this.stuff_collide_(a.p, eyep, true, true);
+                    //if (res.intersect) {
+                    //    // eye collided with wall
+                    //    e.sensed_proximity = res.up.dist_from(a.p);
+                    //    e.sensed_type = res.type;
+                    //} else {
+                    //    e.sensed_proximity = e.max_range;
+                    //    e.sensed_type = -1;
+                    //}
                 }
             }
 
@@ -368,96 +383,99 @@ namespace DeepQLearning.DRLAgent {
             // apply outputs of agents on evironment
             for (int i = 0, n = this.agents.Count; i < n; i++) {
                 Agent a = this.agents[i];
-                a.op = a.p; // back up old position
-                a.oangle = a.angle; // and angle
+                //a.oldPosition = a.position; // back up old position
+                a.oldAngle = a.angle; // and angle
 
                 // steer the agent according to outputs of wheel velocities
-                Vec v = new Vec(0, a.rad / 2.0);
-                v = v.rotate(a.angle + Math.PI / 2);
-                Vec w1p = a.p.add(v); // positions of wheel 1 and 2
-                Vec w2p = a.p.sub(v);
-                Vec vv = a.p.sub(w2p);
-                vv = vv.rotate(-a.rot1);
-                Vec vv2 = a.p.sub(w1p);
-                vv2 = vv2.rotate(a.rot2);
-                Vec np = w2p.add(vv);
-                np.scale(0.5);
-                Vec np2 = w1p.add(vv2);
-                np2.scale(0.5);
-                a.p = np.add(np2);
 
-                a.angle -= a.rot1;
-                if (a.angle < 0)
-                    a.angle += 2 * Math.PI;
-                a.angle += a.rot2;
-                if (a.angle > 2 * Math.PI)
-                    a.angle -= 2 * Math.PI;
+                //Vec v = new Vec(0, a.rad / 2.0);
+                //v = v.rotate(a.angle + Math.PI / 2);
+                //Vec w1p = a.p.add(v); // positions of wheel 1 and 2
+                //Vec w2p = a.p.sub(v);
+                //Vec vv = a.p.sub(w2p);
+                //vv = vv.rotate(-a.rot1);
+                //Vec vv2 = a.p.sub(w1p);
+                //vv2 = vv2.rotate(a.rot2);
+                //Vec np = w2p.add(vv);
+                //np.scale(0.5);
+                //Vec np2 = w1p.add(vv2);
+                //np2.scale(0.5);
+                //a.p = np.add(np2);
+
+                //a.angle -= a.rot1;
+                //if (a.angle < 0)
+                //    a.angle += 2 * Math.PI;
+                //a.angle += a.rot2;
+                //if (a.angle > 2 * Math.PI)
+                //    a.angle -= 2 * Math.PI;
+
+
 
                 // agent is trying to move from p to op. Check walls
-                Intersect res = this.stuff_collide_(a.op, a.p, true, false);
-                if (res.intersect) {
-                    // wall collision! reset position
-                    a.p = a.op;
-                }
+                //Intersect res = this.stuff_collide_(a.oldPosition, a.position, true, false);
+                //if (res.intersect) {
+                //    // wall collision! reset position
+                //    a.position = a.oldPosition;
+                //}
 
-                // handle boundary conditions
-                if (a.p.x < 0)
-                    a.p.x = 0;
-                if (a.p.x > this.W)
-                    a.p.x = this.W;
-                if (a.p.y < 0)
-                    a.p.y = 0;
-                if (a.p.y > this.H)
-                    a.p.y = this.H;
+                //// handle boundary conditions
+                //if (a.position.x < 0)
+                //    a.position.x = 0;
+                //if (a.position.x > this.W)
+                //    a.position.x = this.W;
+                //if (a.position.y < 0)
+                //    a.position.y = 0;
+                //if (a.position.y > this.H)
+                //    a.position.y = this.H;
             }
 
             // tick all items
-            bool update_items = false;
-            for (int i = 0, n = this.items.Count; i < n; i++) {
-                Item it = this.items[i];
-                it.age += 1;
+            //bool update_items = false;
+            //for (int i = 0, n = this.items.Count; i < n; i++) {
+            //    Item it = this.items[i];
+            //    it.age += 1;
 
-                // see if some agent gets lunch
-                for (int j = 0, m = this.agents.Count; j < m; j++) {
-                    Agent a = this.agents[j];
-                    double d = a.p.dist_from(it.p);
-                    if (d < it.rad + a.rad) {
-                        // wait lets just make sure that this isn't through a wall
-                        Intersect rescheck = this.stuff_collide_(a.p, it.p, true, false);
-                        if (!rescheck.intersect) {
-                            // ding! nom nom nom
-                            if (it.type == 1)
-                                a.digestion_signal += 5.0; // mmm delicious apple
-                            if (it.type == 2)
-                                a.digestion_signal += -6.0; // ewww poison
-                            it.cleanup_ = true;
-                            update_items = true;
-                            break; // break out of loop, item was consumed
-                        }
-                    }
-                }
+            //    // see if some agent gets lunch
+            //    for (int j = 0, m = this.agents.Count; j < m; j++) {
+            //        Agent a = this.agents[j];
+            //        double d = a.position.dist_from(it.p);
+            //        if (d < it.rad + a.rad) {
+            //            // wait lets just make sure that this isn't through a wall
+            //            Intersect rescheck = this.stuff_collide_(a.position, it.p, true, false);
+            //            if (!rescheck.intersect) {
+            //                // ding! nom nom nom
+            //                if (it.type == 1)
+            //                    a.digestion_signal += 5.0; // mmm delicious apple
+            //                if (it.type == 2)
+            //                    a.digestion_signal += -6.0; // ewww poison
+            //                it.cleanup_ = true;
+            //                update_items = true;
+            //                break; // break out of loop, item was consumed
+            //            }
+            //        }
+            //    }
 
-                if (it.age > 5000 && this.clock % 100 == 0 && util.randf(0, 1) < 0.1) {
-                    it.cleanup_ = true; // replace this one, has been around too long
-                    update_items = true;
-                }
-            }
-            if (update_items) {
-                List<Item> nt = new List<Item>();
-                for (int i = 0, n = this.items.Count; i < n; i++) {
-                    Item it = this.items[i];
-                    if (!it.cleanup_)
-                        nt.Add(it);
-                }
-                this.items = nt; // swap
-            }
-            if (this.items.Count < 30 && this.clock % 10 == 0 && util.randf(0, 1) < 0.25) {
-                double newitx = util.randf(20, this.W - 20);
-                double newity = util.randf(20, this.H - 20);
-                int newitt = (int) util.randi(1, 3); // food or poison (1 and 2)
-                Item newit = new Item(newitx, newity, newitt);
-                this.items.Add(newit);
-            }
+            //    if (it.age > 5000 && this.clock % 100 == 0 && util.randf(0, 1) < 0.1) {
+            //        it.cleanup_ = true; // replace this one, has been around too long
+            //        update_items = true;
+            //    }
+            //}
+            //if (update_items) {
+            //    List<Item> nt = new List<Item>();
+            //    for (int i = 0, n = this.items.Count; i < n; i++) {
+            //        Item it = this.items[i];
+            //        if (!it.cleanup_)
+            //            nt.Add(it);
+            //    }
+            //    this.items = nt; // swap
+            //}
+            //if (this.items.Count < 30 && this.clock % 10 == 0 && util.randf(0, 1) < 0.25) {
+            //    double newitx = util.randf(20, this.W - 20);
+            //    double newity = util.randf(20, this.H - 20);
+            //    int newitt = (int)util.randi(1, 3); // food or poison (1 and 2)
+            //    Item newit = new Item(newitx, newity, newitt);
+            //    this.items.Add(newit);
+            //}
 
             // agents are given the opportunity to learn based on feedback of their action on environment
             for (int i = 0, n = this.agents.Count; i < n; i++) {
@@ -468,7 +486,7 @@ namespace DeepQLearning.DRLAgent {
 
     [Serializable]
     public class QAgent {
-        public int simspeed = 1;
+        //public int simspeed = 1;
         World w;
 
         //[NonSerialized]
@@ -501,12 +519,12 @@ namespace DeepQLearning.DRLAgent {
             //bluePen = new Pen(Color.Blue, 2);
             //blackPen = new Pen(Color.Black);
 
-            this.simspeed = 1;
-            this.w.agents[0].brain.learning = false;
+            //this.simspeed = 1;
+            //this.w.agents[0].brain.learning = false;
             this.w.agents[0].brain.epsilon_test_time = 0.01;
 
-            this.w.agents[0].op.x = 500;
-            this.w.agents[0].op.y = 500;
+            //this.w.agents[0].oldPosition.x = 500;
+            //this.w.agents[0].oldPosition.y = 500;
         }
 
         public void tick() {
@@ -567,22 +585,6 @@ namespace DeepQLearning.DRLAgent {
 
         //    return w.agents[0].brain.visSelf();
         //}
-
-        public void goveryfast() {
-            simspeed = 3;
-        }
-
-        public void gofast() {
-            simspeed = 2;
-        }
-
-        public void gonormal() {
-            simspeed = 1;
-        }
-
-        public void goslow() {
-            simspeed = 0;
-        }
 
         public void startlearn() {
             this.w.agents[0].brain.learning = true;
